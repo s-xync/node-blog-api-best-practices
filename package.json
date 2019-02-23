@@ -1,0 +1,11 @@
+{
+  "name": "node-blog-best-practices",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/s-xync/node-blog-best-practices.git",
+  "author": "SaiKumar Immadi <immadisaikumar@ymail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
