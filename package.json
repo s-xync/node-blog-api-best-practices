@@ -5,7 +5,24 @@
   "repository": "https://github.com/s-xync/node-blog-best-practices.git",
   "author": "SaiKumar Immadi <immadisaikumar@ymail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev:build": "webpack -w",
+    "dev": "NODE_ENV=development nodemon dist/index.bundle.js"
+  },
   "dependencies": {
     "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "7",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.14.1",
+    "eslint-config-eslint": "^5.0.1",
+    "eslint-plugin-node": "^8.0.1",
+    "nodemon": "^1.18.10",
+    "webpack": "^4.29.5",
+    "webpack-cli": "^3.2.3",
+    "webpack-node-externals": "^1.7.2"
   }
 }
