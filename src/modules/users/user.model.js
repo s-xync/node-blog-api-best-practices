@@ -1,9 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 import validator from "validator";
+import { hashSync, compareSync } from "bcryptjs";
 
 import { passwordReg } from "./user.validations";
 
-const userSchema = new Schema({
+const UserSchema = new Schema({
   email: {
     type: String,
     unique: true,
@@ -46,4 +47,20 @@ const userSchema = new Schema({
   }
 });
 
-export default mongoose.model("user", userSchema);
+UserSchema.pre("save", function(next) {
+  if (this.isModified("password")) {
+    this.password = this._hashpassword(this.password);
+  }
+  return next();
+});
+
+UserSchema.methods = {
+  _hashpassword(password) {
+    return hashSync(password);
+  },
+  authenticateUser(password) {
+    return compareSync(password, this.password);
+  }
+};
+
+export default mongoose.model("user", UserSchema);

@@ -9,3 +9,9 @@ export async function signup(req, res) {
     return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json(err);
   }
 }
+
+export function login(req, res, next) {
+  res.status(HttpStatus.OK).json(req.user);
+
+  return next();
+}
