@@ -1,8 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 import validator from "validator";
 import { hashSync, compareSync } from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 import { passwordReg } from "./user.validations";
+import constants from "../../config/constants";
 
 const UserSchema = new Schema({
   email: {
@@ -60,6 +62,24 @@ UserSchema.methods = {
   },
   authenticateUser(password) {
     return compareSync(password, this.password);
+  },
+  createToken() {
+    return jwt.sign(
+      {
+        _id: this._id
+      },
+      constants.JWT_SECRET
+    );
+  },
+  toJSON() {
+    // this is a inbuilt function and we are overriding it
+    // this is generally used when res.json is used or something like that
+    return {
+      _id: this._id,
+      userName: this.userName,
+      email: this.email,
+      token: `JWT ${this.createToken()}`
+    };
   }
 };
 
