@@ -20,3 +20,17 @@ export async function getPostById(req, res) {
     return res.status(HttpStatus.BAD_REQUEST).json(e);
   }
 }
+
+export async function getPostsList(req, res) {
+  const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
+  const skip = req.query.skip ? parseInt(req.query.skip) : undefined;
+  try {
+    const posts = await Post.list({
+      limit,
+      skip
+    });
+    return res.status(HttpStatus.OK).json(posts);
+  } catch (e) {
+    return res.status(HttpStatus.BAD_REQUEST).json(e);
+  }
+}

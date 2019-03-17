@@ -68,6 +68,18 @@ PostSchema.statics = {
       ...args,
       user
     });
+  },
+  list({ skip = 0, limit = 5 } = {}) {
+    // if controller does not give anything, then we take default values else we take what is given by controller
+
+    // skip skips the first few posts
+    // limit limits the no of posts
+
+    return this.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate("user");
   }
 };
 
