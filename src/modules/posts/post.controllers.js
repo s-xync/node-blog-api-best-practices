@@ -81,3 +81,50 @@ export async function favoritePost(req, res) {
     return res.status(HttpStatus.BAD_REQUEST).json(e);
   }
 }
+
+export async function getAuthorizedPostById(req, res) {
+  try {
+    // populate will populate the user field with real user object
+    const promises = await Promise.all([
+      User.findById(req.user._id),
+      Post.findById(req.params.id).populate("user")
+    ]);
+
+    const favorite = promises[0]._favorites.isPostIsFavorite(req.params.id);
+    const post = promises[1];
+
+    return res.status(HttpStatus.OK).json({
+      ...post.toJSON(),
+      favorite
+    });
+  } catch (e) {
+    return res.status(HttpStatus.BAD_REQUEST).json(e);
+  }
+}
+
+export async function getAuthorizedPostsList(req, res) {
+  const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
+  const skip = req.query.skip ? parseInt(req.query.skip) : undefined;
+  try {
+    const promises = await Promise.all([
+      User.findById(req.user._id),
+      Post.list({
+        limit,
+        skip
+      })
+    ]);
+    // initial array is empty and then it traverses every time with new post to get updated
+    const posts = promises[1].reduce((arr, post) => {
+      const favorite = promises[0]._favorites.isPostIsFavorite(post._id);
+      arr.push({
+        ...post.toJSON(),
+        favorite
+      });
+      return arr;
+    }, []);
+
+    return res.status(HttpStatus.OK).json(posts);
+  } catch (e) {
+    return res.status(HttpStatus.BAD_REQUEST).json(e);
+  }
+}

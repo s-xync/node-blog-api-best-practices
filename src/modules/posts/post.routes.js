@@ -14,7 +14,9 @@ routes.post(
   postController.createPost
 );
 
+routes.get("/authorized", authJwt, postController.getAuthorizedPostsList);
 routes.get("/:id", postController.getPostById);
+routes.get("/authorized/:id", authJwt, postController.getAuthorizedPostById);
 routes.get("/", postController.getPostsList);
 routes.patch(
   "/:id",
