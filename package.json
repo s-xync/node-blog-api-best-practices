@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "dev:build": "yarn run clean && webpack -w --mode development",
+    "dev:build-watch": "yarn run clean && webpack -w --mode development",
+    "dev:build": "yarn run clean && webpack --mode development",
     "dev:server": "nodemon dist/index.bundle.js"
   },
   "dependencies": {
