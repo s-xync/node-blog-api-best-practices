@@ -1,6 +1,7 @@
 import HttpStatus from "http-status-codes";
 
 import Post from "./post.model";
+import User from "../users/user.model";
 
 export async function createPost(req, res) {
   try {
@@ -65,6 +66,16 @@ export async function deletePost(req, res) {
     }
 
     await post.remove();
+    return res.sendStatus(HttpStatus.OK);
+  } catch (e) {
+    return res.status(HttpStatus.BAD_REQUEST).json(e);
+  }
+}
+
+export async function favoritePost(req, res) {
+  try {
+    const user = await User.findById(req.user._id);
+    await user._favorites.posts(req.params.id);
     return res.sendStatus(HttpStatus.OK);
   } catch (e) {
     return res.status(HttpStatus.BAD_REQUEST).json(e);
