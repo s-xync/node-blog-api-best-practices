@@ -10,3 +10,13 @@ export async function createPost(req, res) {
     return res.status(HttpStatus.BAD_REQUEST).json(e);
   }
 }
+
+export async function getPostById(req, res) {
+  try {
+    // populate will populate the user field with real user object
+    const post = await Post.findById(req.params.id).populate("user");
+    return res.status(HttpStatus.OK).json(post);
+  } catch (e) {
+    return res.status(HttpStatus.BAD_REQUEST).json(e);
+  }
+}

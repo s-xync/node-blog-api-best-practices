@@ -79,14 +79,20 @@ UserSchema.methods = {
       constants.JWT_SECRET
     );
   },
-  toJSON() {
-    // this is a inbuilt function and we are overriding it
-    // this is generally used when res.json is used or something like that
+  toAuthJSON() {
     return {
       _id: this._id,
       userName: this.userName,
       email: this.email,
       token: `JWT ${this.createToken()}`
+    };
+  },
+  toJSON() {
+    // this is a inbuilt function and we are overriding it
+    // this is generally used when res.json is used or something like that(populate by another object)
+    return {
+      _id: this._id,
+      userName: this.userName
     };
   }
 };
