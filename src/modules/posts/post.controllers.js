@@ -55,3 +55,18 @@ export async function updatePost(req, res) {
     return res.status(HttpStatus.BAD_REQUEST).json(e);
   }
 }
+
+export async function deletePost(req, res) {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post.user.equals(req.user._id)) {
+      return res.sendStatus(HttpStatus.UNAUTHORIZED);
+    }
+
+    await post.remove();
+    return res.sendStatus(HttpStatus.OK);
+  } catch (e) {
+    return res.status(HttpStatus.BAD_REQUEST).json(e);
+  }
+}
