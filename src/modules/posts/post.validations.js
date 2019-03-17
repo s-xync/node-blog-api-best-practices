@@ -12,5 +12,11 @@ export default {
         .min(10)
         .required()
     }
+  },
+  updatePost: {
+    body: {
+      title: joi.string().min(3),
+      text: joi.string().min(10)
+    }
   }
 };

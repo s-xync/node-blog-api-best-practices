@@ -34,3 +34,24 @@ export async function getPostsList(req, res) {
     return res.status(HttpStatus.BAD_REQUEST).json(e);
   }
 }
+
+export async function updatePost(req, res) {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post.user.equals(req.user._id)) {
+      // same user must be able to update the post
+      return res.sendStatus(HttpStatus.UNAUTHORIZED);
+    }
+
+    Object.keys(req.body).forEach(key => {
+      post[key] = req.body[key];
+    });
+
+    const updatedPost = await post.save();
+
+    return res.status(HttpStatus.OK).json(updatedPost);
+  } catch (e) {
+    return res.status(HttpStatus.BAD_REQUEST).json(e);
+  }
+}
